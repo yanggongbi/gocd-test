@@ -32,6 +32,6 @@ pipelines:
                 working_directory: helloworld-war/war_builder
                 run_if: passed
             - exec:
-                command: ./build_war.sh
+                command: ./build_war_and_image.sh
                 working_directory: helloworld-war
                 run_if: passed

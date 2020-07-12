@@ -1,0 +1,48 @@
+version: '2'
+
+networks:
+  gocd:
+
+services:
+  master:
+    image: stono/kube-gocd-master
+    restart: always
+    networks:
+      gocd:
+        aliases:
+          - gocd-master-internal
+    ports: 
+      - 8153:8153
+      - 8154:8154
+    env_file:
+      - go.env
+
+  master-cron:
+    image: stono/kube-gocd-master-cron 
+    restart: always
+    network_mode: 'service:master'
+    env_file:
+      - go.env
+
+  agent:
+    image: stono/kube-gocd-agent
+    restart: always
+    networks:
+      gocd:
+    depends_on:
+      - master
+    volumes:
+      - build_data:/godata
+    env_file:
+      - go.env
+
+  dind:
+    image: docker:stable-dind
+    restart: always
+    network_mode: 'service:agent'
+    volumes:
+      - build_data:/godata
+    privileged: true
+
+volumes:
+  build_data: {}

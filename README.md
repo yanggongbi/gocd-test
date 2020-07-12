@@ -8,7 +8,7 @@
 # cd helloworld-war/; ./build_war_and_image.sh
 ```
 
-## Starting container to verify the code chang
+## Starting container to verify the demo webapp
 ```
 # cd helloworld-war/; ./run.sh
 ```
